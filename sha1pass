@@ -16,10 +16,10 @@ class Sha1pass(tk.Frame):
     def createWidgets(self):
         self.entries = [tk.Entry(self) for f in range(2)]
         self.checkbuttonsData = {'Show': (tk.IntVar(), self.showButtonUpdate),
-                                 'Secure': (
-                                     tk.IntVar(),
-                                     self.secureButtonUpdate),
-                                 'Complex': (tk.IntVar(), None)}
+                'Secure': (
+                    tk.IntVar(),
+                    self.secureButtonUpdate),
+                'Complex': (tk.IntVar(), None)}
         self.checkbuttons = {key: tk.Checkbutton(
             self,
             text=key,
@@ -28,12 +28,12 @@ class Sha1pass(tk.Frame):
             v in self.checkbuttonsData.items()}
 
         self.buttonsData = {"hex": self.button_hex,
-                            "hex half": self.button_hex_h,
-                            "Base64": self.button_b64,
-                            "Base64 half": self.button_b64_h}
+                "hex half": self.button_hex_h,
+                "Base64": self.button_b64,
+                "Base64 half": self.button_b64_h}
 
         self.buttons = {key: tk.Button(self, text=key, command=val)
-                        for key, val in self.buttonsData.items()}
+                for key, val in self.buttonsData.items()}
 
         self.set_entry_visibility()
 
@@ -41,9 +41,9 @@ class Sha1pass(tk.Frame):
 
         self.firstLine = self.entries
         self.secondLine = [self.checkbuttons[x]
-                           for x in ['Show', 'Secure', 'Complex']] + [self.peek]
+                for x in ['Show', 'Secure', 'Complex']] + [self.peek]
         self.thirdLine = [self.buttons[x]
-                          for x in ['hex', 'hex half', 'Base64', 'Base64 half']]
+                for x in ['hex', 'hex half', 'Base64', 'Base64 half']]
         self.widget_lines = [self.firstLine, self.secondLine, self.thirdLine]
         maxwidget = max([len(x) for x in self.widget_lines])
         for i, widget_list in enumerate(self.widget_lines):
