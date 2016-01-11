@@ -2,7 +2,10 @@
 
 import hashlib
 import base64
-import Tkinter as tk
+try:
+    import Tkinter as tk
+except:
+    import tkinter as tk
 
 
 class Sha1pass(tk.Frame):
