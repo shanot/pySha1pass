@@ -57,7 +57,7 @@ class Sha1pass(tk.Frame):
 
     def set_entry_visibility(self):
         for x in self.entries:
-            x.config(show='*' * (1 - self.__checkbuttons['Show'][0].get()))
+            x.config(show='⚫' * (1 - self.__checkbuttons['Show'][0].get()))
 
     def showbutton_update(self):
         self.set_entry_visibility()
