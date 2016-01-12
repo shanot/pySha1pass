@@ -56,8 +56,11 @@ class Sha1pass(tk.Frame):
                 widget.grid(row=i, column=j * w, columnspan=w, sticky=tk.W)
 
     def set_entry_visibility(self):
+        show = "⚫"
+        if self.__checkbuttons['Show'][0].get():
+            show = ""
         for x in self.entries:
-            x.config(show='⚫' * (1 - self.__checkbuttons['Show'][0].get()))
+            x.config(show=show)
 
     def showbutton_update(self):
         self.set_entry_visibility()
