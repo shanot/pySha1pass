@@ -35,8 +35,8 @@ class Sha1pass(tk.Frame):
                           "Base64": self.button_b64,
                           "Base64 half": self.button_b64_h}
 
-        self.buttons = {key: tk.Button(self, text=key, command=val)
-                        for key, val in self.__buttons.items()}
+        buttons = {key: tk.Button(self, text=key, command=val)
+                   for key, val in self.__buttons.items()}
 
         self.set_entry_visibility()
 
@@ -45,7 +45,7 @@ class Sha1pass(tk.Frame):
         first_line = self.entries
         second_line = [self.checkbuttons[x]
                        for x in ['Show', 'Secure', 'Complex']] + [self.peek]
-        third_line = [self.buttons[x]
+        third_line = [buttons[x]
                       for x in ['hex', 'hex half', 'Base64', 'Base64 half']]
         self.widget_lines = [first_line, second_line, third_line]
         maxwidget = max([len(x) for x in self.widget_lines])
