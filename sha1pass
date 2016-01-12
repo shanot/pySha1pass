@@ -91,7 +91,7 @@ class Sha1pass(tk.Frame):
         return base64.b64encode(s.digest()).decode('utf-8')
 
     def get_half(self, s):
-        return(s[0:len(s) // 2])
+        return(s[:len(s) // 2])
 
     def button_hex(self):
         out = self.get_hex()
