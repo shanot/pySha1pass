@@ -30,13 +30,13 @@ class Sha1pass(tk.Frame):
             command=v[1]) for key,
             v in self.__checkbuttons.items()}
 
-        __buttons = {"hex": self.button_hex,
-                          "hex half": self.button_hex_h,
-                          "Base64": self.button_b64,
-                          "Base64 half": self.button_b64_h}
+        button_defs = {"hex": self.button_hex,
+                       "hex half": self.button_hex_h,
+                       "Base64": self.button_b64,
+                       "Base64 half": self.button_b64_h}
 
         buttons = {key: tk.Button(self, text=key, command=val)
-                   for key, val in __buttons.items()}
+                   for key, val in button_defs.items()}
 
         self.set_entry_visibility()
 
