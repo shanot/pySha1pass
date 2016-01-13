@@ -8,6 +8,14 @@ except:
     import tkinter as tk
 
 
+class CheckButton:
+
+    def __init__(self, name, func, master=None):
+        self.value = tk.IntVar()
+        self.widget = tk.Checkbutton(
+            master, text=name, variable=self.value, command=func)
+
+
 class Sha1pass(tk.Frame):
 
     def __init__(self, master=None):
@@ -18,46 +26,39 @@ class Sha1pass(tk.Frame):
 
     def create_widgets(self):
         self.entries = [tk.Entry(self) for f in range(2)]
-        self.__checkbuttons = {'Show': (tk.IntVar(), self.showbutton_update),
-                               'Secure': (
-            tk.IntVar(),
-            self.securebutton_update),
-            'Complex': (tk.IntVar(), None)}
-        self.checkbuttons = {key: tk.Checkbutton(
-            self,
-            text=key,
-            variable=v[0],
-            command=v[1]) for key,
-            v in self.__checkbuttons.items()}
+        checkbuttons_def = [['Show',    self.showbutton_update],
+                            ['Secure',  self.securebutton_update],
+                            ['Complex', None]]
+        self.checkbuttons = {n: CheckButton(n, f, self)
+                             for n, f in checkbuttons_def}
 
         button_defs = {"hex": self.button_hex,
                        "hex half": self.button_hex_h,
                        "Base64": self.button_b64,
                        "Base64 half": self.button_b64_h}
-
-        buttons = {key: tk.Button(self, text=key, command=val)
-                   for key, val in button_defs.items()}
-
-        self.set_entry_visibility()
+        buttons = [tk.Button(self, text=key, command=val)
+                   for key, val in button_defs.items()]
 
         self.peek = tk.Label(self)
 
-        first_line = self.entries
-        second_line = [self.checkbuttons[x]
-                       for x in ['Show', 'Secure', 'Complex']] + [self.peek]
-        third_line = [buttons[x]
-                      for x in ['hex', 'hex half', 'Base64', 'Base64 half']]
-        self.widget_lines = [first_line, second_line, third_line]
-        maxwidget = max([len(x) for x in self.widget_lines])
-        for i, widget_list in enumerate(self.widget_lines):
+        widget_lines = []
+        widget_lines.append(self.entries)
+        widget_lines.append([self.checkbuttons[x].widget
+                             for x, f in checkbuttons_def] + [self.peek])
+        widget_lines.append(buttons)
+
+        maxwidget = max([len(x) for x in widget_lines])
+        for i, widget_list in enumerate(widget_lines):
             n = len(widget_list)
             w = maxwidget // n
             for j, widget in enumerate(widget_list):
                 widget.grid(row=i, column=j * w, columnspan=w, sticky=tk.W)
 
+        self.set_entry_visibility()
+
     def set_entry_visibility(self):
         show = u"\u25CF"
-        if self.__checkbuttons['Show'][0].get():
+        if self.checkbuttons['Show'].value.get():
             show = ""
         for x in self.entries:
             x.config(show=show)
@@ -66,8 +67,8 @@ class Sha1pass(tk.Frame):
         self.set_entry_visibility()
 
     def securebutton_update(self):
-        show_button = self.checkbuttons['Show']
-        if self.__checkbuttons['Secure'][0].get():
+        show_button = self.checkbuttons['Show'].widget
+        if self.checkbuttons['Secure'].value.get():
             show_button.deselect()
             show_button.config(state=tk.DISABLED)
             self.set_entry_visibility()
@@ -110,7 +111,7 @@ class Sha1pass(tk.Frame):
         self.process_output(out)
 
     def do_complex(self, s):
-        return s + '.H0k' * self.__checkbuttons['Complex'][0].get()
+        return s + '.H0k' * self.checkbuttons['Complex'].value.get()
 
     def process_output(self, s):
         s = self.do_complex(s)
