@@ -32,12 +32,12 @@ class Sha1pass(tk.Frame):
         self.checkbuttons = {n: CheckButton(n, f, self)
                              for n, f in checkbuttons_def}
 
-        button_defs = {"hex": self.button_hex,
-                       "hex half": self.button_hex_h,
-                       "Base64": self.button_b64,
-                       "Base64 half": self.button_b64_h}
+        button_defs = [["hex", self.button_hex],
+                       ["hex half", self.button_hex_h],
+                       ["Base64", self.button_b64],
+                       ["Base64 half", self.button_b64_h]]
         buttons = [tk.Button(self, text=key, command=val)
-                   for key, val in button_defs.items()]
+                   for key, val in button_defs]
 
         self.peek = tk.Label(self)
 
