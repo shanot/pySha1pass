@@ -10,7 +10,7 @@ except:
 
 class CheckButton:
 
-    def __init__(self, master=None, name, func):
+    def __init__(self, master, name, func):
         self.value = tk.IntVar()
         self.widget = tk.Checkbutton(
             master, text=name, variable=self.value, command=func)
