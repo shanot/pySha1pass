@@ -26,16 +26,16 @@ class Sha1pass(tk.Frame):
 
     def create_widgets(self):
         self.entries = [tk.Entry(self) for f in range(2)]
-        checkbuttons_def = [['Show',    self.showbutton_update],
-                            ['Secure',  self.securebutton_update],
-                            ['Complex', None]]
+        checkbuttons_def = (('Show',    self.showbutton_update),
+                            ('Secure',  self.securebutton_update),
+                            ('Complex', None))
         self.checkbuttons = {n: CheckButton(n, f, self)
                              for n, f in checkbuttons_def}
 
-        button_defs = [["hex", self.button_hex],
-                       ["hex half", self.button_hex_h],
-                       ["Base64", self.button_b64],
-                       ["Base64 half", self.button_b64_h]]
+        button_defs = (("hex", self.button_hex),
+                       ("hex half", self.button_hex_h),
+                       ("Base64", self.button_b64),
+                       ("Base64 half", self.button_b64_h))
         buttons = [tk.Button(self, text=key, command=val)
                    for key, val in button_defs]
 
