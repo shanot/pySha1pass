@@ -16,6 +16,24 @@ class CheckButton:
             master, text=name, variable=self.value, command=func)
 
 
+def get_hex(s):
+    return s.hexdigest()
+
+
+def get_b64(s):
+    return base64.b64encode(s.digest()).decode('utf-8')
+
+
+def get_half(s):
+    return(s[:len(s) // 2])
+
+def compose(fn):
+    if len(fn) > 1:
+        return lambda: fn[-1](compose(fn[:-1])())
+    else:
+        return lambda: fn[0]()
+
+
 class Sha1pass(tk.Frame):
 
     def __init__(self, master=None):
@@ -32,11 +50,11 @@ class Sha1pass(tk.Frame):
         self.checkbuttons = {n: CheckButton(self, n, f)
                              for n, f in checkbuttons_def}
 
-        button_defs = (("hex", self.button_hex),
-                       ("hex half", self.button_hex_h),
-                       ("Base64", self.button_b64),
-                       ("Base64 half", self.button_b64_h))
-        buttons = [tk.Button(self, text=key, command=val)
+        button_defs = (("hex", [get_hex]),
+                       ("hex half", [get_hex, get_half]),
+                       ("Base64", [get_b64]),
+                       ("Base64 half", [get_b64, get_half]))
+        buttons = [tk.Button(self, text=key, command=self.do_button(val))
                    for key, val in button_defs]
 
         self.peek = tk.Label(self)
@@ -83,32 +101,8 @@ class Sha1pass(tk.Frame):
             sha1.update(x.get().encode('utf-8'))
         return sha1
 
-    def get_hex(self):
-        s = self.get_sha1()
-        return s.hexdigest()
-
-    def get_b64(self):
-        s = self.get_sha1()
-        return base64.b64encode(s.digest()).decode('utf-8')
-
-    def get_half(self, s):
-        return(s[:len(s) // 2])
-
-    def button_hex(self):
-        out = self.get_hex()
-        self.process_output(out)
-
-    def button_hex_h(self):
-        out = self.get_half(self.get_hex())
-        self.process_output(out)
-
-    def button_b64(self):
-        out = self.get_b64()
-        self.process_output(out)
-
-    def button_b64_h(self):
-        out = self.get_half(self.get_b64())
-        self.process_output(out)
+    def do_button(self, fn):
+        return compose([self.get_sha1] + fn + [self.process_output])
 
     def do_complex(self, s):
         return s + '.H0k' * self.checkbuttons['Complex'].value.get()
@@ -118,6 +112,7 @@ class Sha1pass(tk.Frame):
         self.peek.config(text=s[0:5])
         self.clipboard_clear()
         self.clipboard_append(s)
+        print(s)
 
 app = Sha1pass(tk.Tk())
 app.mainloop()
