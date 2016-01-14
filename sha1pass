@@ -8,14 +8,6 @@ except:
     import tkinter as tk
 
 
-class CheckButton:
-
-    def __init__(self, master, name, func):
-        self.value = tk.IntVar()
-        self.widget = tk.Checkbutton(
-            master, text=name, variable=self.value, command=func)
-
-
 def get_hex(s):
     return s.hexdigest()
 
@@ -27,11 +19,20 @@ def get_b64(s):
 def get_half(s):
     return(s[:len(s) // 2])
 
+
 def compose(fn):
     if len(fn) > 1:
         return lambda: fn[-1](compose(fn[:-1])())
     else:
         return lambda: fn[0]()
+
+
+class CheckButton:
+
+    def __init__(self, master, name, func):
+        self.value = tk.IntVar()
+        self.widget = tk.Checkbutton(
+            master, text=name, variable=self.value, command=func)
 
 
 class Sha1pass(tk.Frame):
