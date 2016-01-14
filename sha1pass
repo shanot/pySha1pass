@@ -10,7 +10,7 @@ except:
 
 class CheckButton:
 
-    def __init__(self, name, func, master=None):
+    def __init__(self, master=None, name, func):
         self.value = tk.IntVar()
         self.widget = tk.Checkbutton(
             master, text=name, variable=self.value, command=func)
@@ -29,7 +29,7 @@ class Sha1pass(tk.Frame):
         checkbuttons_def = (('Show',    self.showbutton_update),
                             ('Secure',  self.securebutton_update),
                             ('Complex', None))
-        self.checkbuttons = {n: CheckButton(n, f, self)
+        self.checkbuttons = {n: CheckButton(self, n, f)
                              for n, f in checkbuttons_def}
 
         button_defs = (("hex", self.button_hex),
