@@ -113,7 +113,6 @@ class Sha1pass(tk.Frame):
         self.peek.config(text=s[0:5])
         self.clipboard_clear()
         self.clipboard_append(s)
-        print(s)
 
 app = Sha1pass(tk.Tk())
 app.mainloop()
