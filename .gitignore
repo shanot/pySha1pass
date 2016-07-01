@@ -1,0 +1,6 @@
+.vscode
+build
+dist
+icon*
+setup.py
+.DS_Store
